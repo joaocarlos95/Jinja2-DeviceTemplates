@@ -42,54 +42,8 @@ def render_j2_template(j2_template, j2_data):
 
 def main():
 
-    j2_template = get_j2_template('extreme_snmp.j2')
-    # j2_data = get_j2_data_from_file('extreme_exos_snmp.yaml')
-    j2_data = {
-        "snmpv3": {
-            "groups": [
-            {
-                "name": "XMC_Group",
-                "users": [
-                {
-                    "username": "snmpuser",
-                    "auth_algorithm": "md5",
-                    "auth_password": "snmpauthcred",
-                    "priv_algorithm": "des",
-                    "priv_password": "snmpprivcred"
-                },
-                {
-                    "username": "ANAuser",
-                    "auth_algorithm": "md5",
-                    "auth_password": "ANApassword",
-                    "priv_algorithm": "des",
-                    "priv_password": "ANApassword"
-                }
-                ]
-            }
-            ],
-            "traps": {
-            "server_name": "XMC",
-            "server_addr": "192.168.78.20",
-            "port_number": 162,
-            "vrf": None,
-            "username": "snmpuser"
-            }
-        },
-        "snmpv2c": {
-            "groups": [
-            {
-                "name": "Cacti_Group",
-                "users": [
-                {
-                    "username": "Cacti_User",
-                    "community": "ANApassword"
-                }
-                ]
-            }
-            ]
-        }
-    }
-
+    j2_template = get_j2_template('extreme_exos_snmp.j2')
+    j2_data = get_j2_data_from_file('extreme_exos_snmp.yaml')
     result = render_j2_template(j2_template, j2_data)
     print(result)
     return
