@@ -1,0 +1,13 @@
+
+{# Configure SNMPv3 #}
+{% if snmpv3 is defined %}
+    {% if snmpv3.groups is defined %}
+        {% for group in snmpv3.groups %}
+            {% for user in group.users %}
+                set snmp user {{ user.username }} authentication {{ user.auth_algorithm }} {{ user.auth_password }} encryption {{ user.priv_algorithm }} privacy {{ user.priv_password }} nonvolatile
+                set snmp group {{ group.name }} user {{ user.username }} security-model usm nonvolatile
+            {% endfor %}
+            set snmp access {{ group.name }} security-model usm privacy exact read All notify All nonvolatile
+set snmp targetaddr XMC_Address 192.168.78.20 param XMC_SNMPv3_Parameters taglist XMC_Tag
+set snmp targetparams XMC_SNMPv3_Parameters user snmpuser security-model usm message-processing v3
+set snmp notify XMC_Notification tag XMC_Tag inform
