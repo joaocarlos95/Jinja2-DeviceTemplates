@@ -1,51 +1,52 @@
+import os
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
 
 def get_j2_template(filename: str=None):
     '''
-    Define the directory of jinja2 templates and specify the base template (skeleton) to be loaded
-    The base_config.j2 template will then be extended by the child templates, specified by the 
-    config_blocks variable passed in the constructor
+    Define the directory of Jinja2 templates and specify the base template (skeleton), or a
+    specific template to be loaded.
+    In case of base template, it will be extended by the child templates, specified by the 
+    config_blocks variable passed in the constructor.
     '''
 
-    # Load the base template and assign it to a variable for further usage
+    # Set up the Jinja2 environment, specifying the directory where the base template is located
+    base_dir = f"{os.path.dirname(os.path.abspath(__file__))}"
     env = Environment(
-        loader=FileSystemLoader(['.', './templates']), 
+        loader=FileSystemLoader([base_dir, f"{base_dir}/templates"]), 
         trim_blocks=True, 
         lstrip_blocks=True)
     
+    # Load the Jinja2 template specified by the filename parameter or use the base_config.j2 template
     filename = filename if filename else 'base_config.j2'
-    j2_base_template = env.get_template(filename)
-    return j2_base_template
+    j2_template = env.get_template(filename)
+    return j2_template
 
-def get_j2_data():
+def get_j2_data_from_file(filename: str=None):
     '''
     Get the data to be used in the jinja2 template, from a YAML file
     '''
 
     # Open the default config_data.yaml file and load the content to a variable
-    with open(f"{dir}/inputfiles/config_data.yaml") as file:
+    with open(filename) as file:
         j2_data = yaml.safe_load(file)
+    return j2_data
+
+def render_j2_template(j2_template, j2_data):
+
+    config = j2_template.render(j2_data)
+    # Remove all leading spaces in the rendered configuration
+    result = '\n'.join([line.lstrip() for line in config.split('\n')])
+    return result
 
 def main():
 
-    environment = Environment(loader=FileSystemLoader('path/to/templates'))
-    template = environment.get_template('template.html')
-
-    # Define the data to be passed to the template
-    data = {
-        'title': 'My Page Title',
-        'heading': 'Welcome to My Page',
-        'description': 'This is a description of my page.',
-        'items': ['Item 1', 'Item 2', 'Item 3']
-    }
-
-    # Render the template with the data
-    output = template.render(data)
-
-    # Print the rendered template (or write it to a file)
-    print(output)
+    j2_template = get_j2_template('extreme_exos_snmp.j2')
+    j2_data = get_j2_data_from_file('extreme_exos_snmp.yaml')
+    result = render_j2_template(j2_template, j2_data)
+    print(result)
+    return
 
 if __name__ == "__main__":
     main()
