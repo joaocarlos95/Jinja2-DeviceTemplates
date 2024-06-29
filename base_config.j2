@@ -3,7 +3,7 @@
 {{ comment_char }} Device IP: {{ ip_address }}
 
 {% for block in config_blocks %}
-{% set child_template = '"' ~ vendor_os ~ "_" ~ block ~ ".j2"  ~ '"' %}
+{% set child_template = '"templates/' ~ vendor_os ~ "_" ~ block ~ ".j2"  ~ '"' %}
 {{ comment_char }}
 {% include child_template ignore missing %}
 {% endfor %}
