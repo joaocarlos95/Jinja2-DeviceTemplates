@@ -4,7 +4,7 @@
 {{ comment_char }} Device: {{ ip_address }}
 {{ comment_char }} ----------------------------------------
 
-{% for block in config_blocks %}{% set child_template = "templates/" ~ vendor_os ~ "_" ~ block ~ ".j2" %}
+{% for block in config_blocks %}{% set child_template = vendor_os ~ "_" ~ block ~ ".j2" %}
 {{ comment_char }} ----------------------------------------
 {{ comment_char }} Start of {{ block }} configuration block
 {{ comment_char }} Using template: {{ child_template }}
