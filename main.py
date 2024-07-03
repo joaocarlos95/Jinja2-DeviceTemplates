@@ -43,8 +43,8 @@ def render_j2_template(j2_template, j2_data):
 
 def main():
 
-    template_file = 'base_config.j2'
-    j2_file = 'C:/Users/joaoc/OneDrive - A2itwb Tecnologia S.A/01. Clientes\ANA Aeroportos/04. Automation\inputfiles\config_data.yaml'
+    template_file = 'roles/extreme_exos_access_switch.j2'
+    j2_file = 'C:/Users/jlcosta/OneDrive - A2itwb Tecnologia S.A/01. Clientes/ANA Aeroportos/04. Automation/inputfiles/config_data.yaml'
     vendor_os = 'extreme_exos'
     config_blocks = ['snmp']
     comment_char = '#'
