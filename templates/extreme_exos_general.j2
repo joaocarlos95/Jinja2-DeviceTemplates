@@ -3,7 +3,7 @@ configure snmp sysName "{{ general.hostname }}"
 configure snmp sysLocation "{{ general.location }}"
 configure snmp sysContact "{{ general.contact }}"
 
-{# configure banner before-login save-to-configuration
+configure banner before-login save-to-configuration
 +---------------------------------------------------------------------+
 |                           EXTREME NETWORKS                          |
 +---------------------------------------------------------------------+
@@ -31,4 +31,4 @@ enable cli config-logging expansion
 enable jumbo-frame ports all
 
 configure cli journal size 150
-configure cli max-sessions 5 #}
+configure cli max-sessions 5
