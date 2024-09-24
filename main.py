@@ -10,7 +10,8 @@ def main():
     j2_template = templater.get_j2_template()
     j2_data = templater.get_j2_data_from_file(j2_file)
 
-    config = templater.render_config(j2_template, j2_data, hostname='LIS-T001-LAN-SA-LAB.A')
+    config = templater.render_config(j2_template, j2_data, hostname='LIS-T001-LAN-SA-SBCSummit')
+    print(config)
 
 if __name__ == "__main__":
     main()
