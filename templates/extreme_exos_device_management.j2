@@ -15,8 +15,8 @@
     configure cli max-failed-logins {{ device_management.local_access.accounts_lockout.attempts }}
     configure account all password-policy lockout-time-period {{ device_management.local_access.accounts_lockout.timer }}
     create account {{ device_management.local_access.privilege }} {{ device_management.local_access.username }} {{ device_management.local_access.password }} 
-    disable account admin
-    disable account user
+    delete account admin
+    delete account user
 {% endif %}
 
 {# SSH access #}

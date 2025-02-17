@@ -1,2 +1,5 @@
 {#- NTP configuration -#}
+
+enable sntp-client
+configure sntp-client primary {{ ntp.server }} vr {{ ntp.vrf | default("VR-Default", true) }}
 configure timezone name WET 0 autodst name WEST 60 begins every last sunday march at 2 0 ends every last sunday october at 3 0

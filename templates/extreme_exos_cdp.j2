@@ -2,9 +2,9 @@
 
 configure cdp management-address vlan {{ cdp.mgmt_vlan }} primary-ip
 configure cdp device-id system-name
-{% if cdp.enabled_ports is defined %}
+{% if cdp.enabled_ports is defined and cdp.enabled_ports is not none and cdp.enabled_ports | length > 0 %}
     enable cdp ports {{ cdp.enabled_ports | join(',') }}
 {% endif %}
-{% if cdp.disabled_ports is defined %}
+{% if cdp.disabled_ports is defined and cdp.disabled_ports is not none and cdp.disabled_ports | length > 0 %}
     disable cdp ports {{ cdp.disabled_ports | join(',') }}
 {% endif %}

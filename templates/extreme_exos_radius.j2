@@ -1,5 +1,14 @@
 {#- Configure RADIUS server -#}
 
+{% if radius.mgmt_access is defined %}
+    {% if radius.mgmt_access.primary_server is defined %}
+configure radius mgmt-access primary server {{ radius.mgmt_access.primary_server.addr }} {{ radius.mgmt_access.primary_server.port | default("1812", true) }} client-ip {{ radius.mgmt_ip_addr }} vr {{ radius.mgmt_access.primary_server.vrf | default("VR-Default", true) }}
+configure radius mgmt-access primary shared-secret {{ radius.mgmt_access.primary_server.shared_secret }}
+configure radius-accounting mgmt-access primary server {{ radius.mgmt_access.primary_accounting_server.addr }} {{ radius.mgmt_access.primary_accounting_server.port | default("1813", true) }} client-ip {{ radius.mgmt_ip_addr }} vr {{ radius.mgmt_access.primary_server.vrf | default("VR-Default", true) }}
+configure radius-accounting mgmt-access primary shared-secret {{ radius.mgmt_access.primary_accounting_server.shared_secret }}
+    {% endif %}
+enable radius mgmt-access    
+{% endif %}
 {% if radius.netlogin is defined %}
     {% if radius.netlogin.primary_server is defined %}
         enable radius netlogin

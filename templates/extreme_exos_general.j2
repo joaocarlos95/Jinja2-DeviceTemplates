@@ -5,8 +5,6 @@ configure snmp sysContact "{{ general.contact }}"
 
 configure banner before-login save-to-configuration
 +---------------------------------------------------------------------+
-|                           EXTREME NETWORKS                          |
-+---------------------------------------------------------------------+
 |                                                                     |
 |                           !!! WARNING !!!                           |
 |              UNAUTHORIZED ACCESS IS STRICTLY PROHIBITED             |
@@ -21,14 +19,11 @@ configure banner before-login save-to-configuration
 |   and legal agreements in place.                                    |
 |                                                                     |
 +---------------------------------------------------------------------+
-|   Device Name: {{ general.hostname }}{% for _ in range(52 - general.hostname|length) %} {% endfor %} |
-|   Location: {{ general.location }}{% for _ in range(55 - general.location|length) %} {% endfor %} |
-|   Contact: {{ general.contact }}{% for _ in range(56 - general.contact|length) %} {% endfor %} |
-+---------------------------------------------------------------------+
 
 enable dos-protect simulated
 enable cli config-logging expansion
 enable jumbo-frame ports all
+disable dhcp vlan all
 
 configure cli journal size 150
 configure cli max-sessions 5

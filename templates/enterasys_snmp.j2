@@ -1,5 +1,16 @@
 
 {# Configure SNMPv3 #}
+clear snmp access ro security-model v1
+clear snmp access ro security-model v2c
+clear snmp access public security-model v1
+clear snmp access public security-model v2c
+clear snmp access public security-model usm
+clear snmp group ro ro security-model v1
+clear snmp group public public security-model v1
+clear snmp group ro ro security-model v2c
+clear snmp group public public security-model v2c
+clear snmp group public public security-model usm
+
 {% if snmpv3 is defined %}
     {% if snmpv3.groups is defined %}
         {% for group in snmpv3.groups %}
