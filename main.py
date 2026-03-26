@@ -4,10 +4,14 @@ import numpy as np
 import pandas as pd
 from classes.templater import Templater
 from datetime import datetime
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 EXCEL_DATA = False
-ROOT_DIRECTORY = "C:/Users/jlcosta/OneDrive - A2itwb Tecnologia S.A/01. Clientes/ANA Aeroportos/04. Automation"
+ROOT_DIRECTORY = os.getenv("root_directory")
 
 
 def get_excel_data(filename):
@@ -68,12 +72,20 @@ def save_config(config, hostname):
     with open(f"{path}/{filename}", mode='w', encoding='utf-8') as file:
         file.write(config)
 
+def deep_merge(data_1, data_2):
+
+    for key, value in data_2.items():
+        if isinstance(value, dict) and key in data_1 and isinstance(data_1[key], dict):
+            deep_merge(data_1[key], value)  # Recursively merge nested dictionaries
+        else:
+            data_1[key] = value  # Override or add new key-value pairs
+    return data_1
+
 def main():
 
     vendor_os = 'extreme_exos'
-    hostname = 'LIS-T001-LAN-SA-FY'
+    hostname = 'LIS-E108-LAN-SA-XC'
     
-    j2_file = f"{ROOT_DIRECTORY}/inputfiles/config_data.yaml"
     config_blocks = [
         'general',
         'vlan',
@@ -99,11 +111,13 @@ def main():
             excel_file = f"{ROOT_DIRECTORY}/inputfiles/config_data.xlsx"
         data = get_excel_data(filename=excel_file)
     else:
-        if not os.path.exists(f"{ROOT_DIRECTORY}/inputfiles/config_data.yaml"):
-            j2_file = f"{os.getcwd()}/inputfiles/config_data.yaml"
+        if not os.path.exists(f"{ROOT_DIRECTORY}/inputfiles/configs/devices/{hostname}.yaml"):
+            defaults_data = templater.get_j2_data_from_file(f"{os.getcwd()}/inputfiles/configs/defaults.yaml")
+            device_data = templater.get_j2_data_from_file(f"{os.getcwd()}/inputfiles/configs/devices/{hostname}.yaml")
         else:
-            j2_file = f"{ROOT_DIRECTORY}/inputfiles/config_data.yaml"
-        data = templater.get_j2_data_from_file(j2_file)
+            defaults_data = templater.get_j2_data_from_file(f"{ROOT_DIRECTORY}/inputfiles/configs/defaults.yaml")
+            device_data = templater.get_j2_data_from_file(f"{ROOT_DIRECTORY}/inputfiles/configs/devices/{hostname}.yaml")
+        data = deep_merge(defaults_data, device_data)
 
     config = templater.render_config(j2_template, data, hostname=hostname)
     save_config(config, hostname)

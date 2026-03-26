@@ -61,6 +61,7 @@ Port related configurations:
         configure mac-locking ports {{ port_limit.ports | join(',') }} first-arrival limit-learning {{ port_limit.limit }}
         configure mac-locking ports {{ port_limit.ports | join(',') }} first-arrival aging enable
         configure mac-locking ports {{ port_limit.ports | join(',') }} first-arrival link-down-action clear-macs
+        configure mac-locking ports {{ port_limit.ports | join(',') }} learn-limit-action disable-port
         configure mac-locking ports {{ port_limit.ports | join(',') }} trap violation on
         configure mac-locking ports {{ port_limit.ports | join(',') }} log violation on
     {% endfor %}
